@@ -1,17 +1,16 @@
-let addition = (oper1: number, oper2: number) => oper1 + oper2
-let subtraction = (oper1: number, oper2: number) => oper1 - oper2
-let multiplication = (oper1: number, oper2: number) => oper1 * oper2
-let division = (oper1: number, oper2: number) => oper1 / oper2
+let addition = (op1: number, op2: number): number => { return (op1 + op2) }
+let subtraction = (op1: number, op2: number): number => { return (op1 - op2) }
+let multiplication = (op1: number, op2: number): number => { return (op1 * op2) }
+let division = (op1: number, op2: number): number => { return (op1 / op2) }
 
-function calc(oper1: number, oper2: number, operand: Function)
-{
-    return operand(oper1, oper2)
+function calc(num1: number, num2: number, operand: Function) {
+    return operand(num1, num2)
 }
 
-let oper1 = 10
-let oper2 = 2
+let num1 = 10
+let num2 = 4
 
-console.log('Сложение ' + oper1 + ' + ' + oper2 + ' = '+ calc(oper1, oper2, addition))
-console.log('Вычитание ' + oper1 + ' - ' + oper2 + ' = '+ calc(oper1, oper2, subtraction))
-console.log('Умножение ' + oper1 + ' * ' + oper2 + ' = '+ calc(oper1, oper2, multiplication))
-console.log('Деление ' + oper1 + ' / ' + oper2 + ' = '+ calc(oper1, oper2, division))
+console.log('Сложение ' + num1 + ' + ' + num2 + ' = ' + calc(num1, num2, addition))
+console.log('Вычитание ' + num1 + ' - ' + num2 + ' = ' + calc(num1, num2, subtraction))
+console.log('Умножение ' + num1 + ' * ' + num2 + ' = ' + calc(num1, num2, multiplication))
+console.log('Деление ' + num1 + ' / ' + num2 + ' = ' + calc(num1, num2, division))
