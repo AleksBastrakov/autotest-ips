@@ -1,4 +1,4 @@
-let temperature: number = 3000000000000000000000000000000000000000000000000000000000000000
+let temperature: number = 19
 
 if (temperature < -10)
     console.log('Очень холодно')
