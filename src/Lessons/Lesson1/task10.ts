@@ -1,10 +1,6 @@
-let str = (n: number) => {
-    
-    if (n >= 18)
-        console.log('Страница доступна')
-    else
-        console.log('Страница не доступна')
+let str = (n: number):string => {
+    return n < 18 ? 'Страница не доступна' : 'Страница доступна'
 }
 
-let n: number = 20
-str(n)
+let n: number = 18
+console.log(str(n))
