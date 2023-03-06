@@ -1,7 +1,7 @@
-let addition = (op1: number, op2: number): number => { return (op1 + op2) }
-let subtraction = (op1: number, op2: number): number => { return (op1 - op2) }
-let multiplication = (op1: number, op2: number): number => { return (op1 * op2) }
-let division = (op1: number, op2: number): number => { return (op1 / op2) }
+let addition = (op1: number, op2: number): number => op1 + op2
+let subtraction = (op1: number, op2: number): number => op1 - op2
+let multiplication = (op1: number, op2: number): number => op1 * op2
+let division = (op1: number, op2: number): number => op1 / op2
 
 function calc(num1: number, num2: number, operand: Function) {
     return operand(num1, num2)
