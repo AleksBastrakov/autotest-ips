@@ -1,6 +1,6 @@
 const myPromise2 = new Promise((resolve, reject) => {
     setTimeout(() => resolve('resolve'), 1000)
-    setTimeout(() => reject('reject'), 200)
+    setTimeout(() => reject('reject'), 100)
     
 })
 
