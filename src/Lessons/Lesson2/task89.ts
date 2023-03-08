@@ -8,8 +8,8 @@ async function print(): Promise <void> {
     try {
         console.log('Fulfilled: ', await myPromise2)
     }
-    catch (err) {
-        console.log('Rejected: Error! ', err)
+    catch (error) {
+        console.log('Rejected: Error! ', error)
     }
     
 }
