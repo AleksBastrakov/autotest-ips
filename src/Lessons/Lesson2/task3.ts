@@ -1,9 +1,9 @@
 type cats = {
-    name: string
-    age: number 
-    color?: string
-    breed?: string
-    weight?: number
+    name: string,
+    age: number,
+    color?: string,
+    breed?: string,
+    weight?: number,
 }
 
 let myCat: cats = {name: 'Barsick', age: 10}
