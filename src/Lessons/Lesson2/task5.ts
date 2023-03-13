@@ -35,7 +35,7 @@ class Car {
 const myCar: Car = new Car()
 
 myCar.getState()
-//myCar.turnOn()
+myCar.turnOn()
 myCar.getState()
 myCar.setSpeed(0)
 console.log(myCar)
