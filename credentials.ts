@@ -1,2 +1,3 @@
-export const LOGIN ='AleksBastrakov'
-export const PASSWORD="CreAtive1988"
+export const LOGIN: string ='AleksBastrakov'
+export const EMAIL: string ='aleksbastrakov@mail.ru'
+export const PASSWORD: string ='CreAtive1988'
