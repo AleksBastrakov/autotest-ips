@@ -5,7 +5,7 @@ describe ('Login form', async () => {
         await browser.url('https://github.com/login')
     })
     
-    it ('user should be log in (login as login)', async () => {
+    it ('user should be log in by LOGIN', async () => {
         await browser.$('//*[@id="login_field"]').waitForDisplayed({
             timeoutMsg: 'Login field was not displayed'
         })
@@ -22,7 +22,7 @@ describe ('Login form', async () => {
         expect(await browser.$('//*[@class="css-truncate-target"]').getText()).toEqual(LOGIN)
     })
 
-    it ('user should be log in (login as email)', async () => {
+    it ('user should be log in by EMAIL', async () => {
         await browser.$('//*[@id="login_field"]').waitForDisplayed({
             timeoutMsg: 'Login field was not displayed'
         })
@@ -47,16 +47,15 @@ describe ('Login form', async () => {
         await browser.$('//*[@role="alert"]').waitForDisplayed({
             timeoutMsg: 'Error was not displayed'
         })
-        /*expect(await browser.$('//*[@role="alert"]').getText()).toEqual("Incorrect username or password.")*/
-        expect(await (await browser.$('//*[@role="alert"]')).isExisting())
+        expect(await (await browser.$('//*[@role="alert"]')).isExisting()).toEqual(true)
     })
 
-    it ('user should not be log in (wrong pass)', async () => {
+    it ('user should not be log in with wrong password', async () => {
         await browser.$('//*[@id="login_field"]').waitForDisplayed({
             timeoutMsg: 'Login field was not displayed'
         })
         await browser.$('//*[@id="login_field"]').setValue(LOGIN)
-        await browser.$('//*[@id="password"]').setValue(PASSWORD + 1)
+        await browser.$('//*[@id="password"]').setValue('12782193692136')
         await browser.$('//*[@id="login_field"]').waitForClickable({
             timeoutMsg: 'Login button was not clickable'
         })
@@ -64,8 +63,7 @@ describe ('Login form', async () => {
         await browser.$('//*[@role="alert"]').waitForDisplayed({
             timeoutMsg: 'Error was not displayed'
         })
-        /*expect(await browser.$('//*[@role="alert"]').getText()).toEqual("Incorrect username or password.")*/
-        expect(await (await browser.$('//*[@role="alert"]')).isExisting())
+        expect(await (await browser.$('//*[@role="alert"]')).isExisting()).toEqual(true)
     })
 
     afterEach(async () => {
