@@ -18,26 +18,28 @@ describe('Login form', () => {
     it('user should be log in by LOGIN', async () => {
         await loginPage.login(LOGIN, PASSWORD)
         await mainPage.openUserMenu()
+
         expect(await mainPage.getUserLoginText()).toEqual(LOGIN)
     })
 
     it('user should be log in by EMAIL', async () => {
         await loginPage.login(EMAIL, PASSWORD)
         await mainPage.openUserMenu()
+
         expect(await mainPage.getUserLoginText()).toEqual(LOGIN)
     })
 
     it('user should not be log in with empty credentials', async () => {
         await loginPage.login('', '')
-        await loginPage.isExistingError()
-        expect(await loginPage.getErrorWindow().isExisting()).toEqual(true)
+        
+        expect(await loginPage.isExistingError()).toEqual(true)
     })
 
     it('user should not be log in with wrong password', async () => {
-        let password:string = 'wrong123pass'
+        const password: string = 'wrong123pass'
         await loginPage.login('', password)
-        await loginPage.isExistingError()
-        expect(await loginPage.getErrorWindow().isExisting()).toEqual(true)
+
+        expect(await loginPage.isExistingError()).toEqual(true)
     })
 
     afterEach(async () => {

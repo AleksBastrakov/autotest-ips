@@ -1,3 +1,5 @@
+import {ChainablePromiseElement} from 'webdriverio'
+
 class MainPage {
     protected browser: WebdriverIO.Browser
     protected url = 'https://github.com'
@@ -12,16 +14,16 @@ class MainPage {
 
     public async openUserMenu(): Promise<void> {
         await this.getUserAvatar().waitForClickable({
-            timeoutMsg: 'User avatar was not clickable'
+            timeoutMsg: 'User avatar was not clickable',
         })
         await this.getUserAvatar().click()
     }
     
-    private getUserAvatar() {
+    private getUserAvatar(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//summary//*[contains(@class, "avatar")]')
     }
 
-    private getUserLogin() {
+    private getUserLogin(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//*[@class="css-truncate-target"]')
     }
 }
