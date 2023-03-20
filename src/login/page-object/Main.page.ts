@@ -16,13 +16,13 @@ class MainPage {
         })
         await this.getUserAvatar().click()
     }
+    
+    private getUserAvatar() {
+        return this.browser.$('//summary//*[contains(@class, "avatar")]')
+    }
 
     private getUserLogin() {
         return this.browser.$('//*[@class="css-truncate-target"]')
-    }
-
-    private getUserAvatar() {
-        return this.browser.$('//summary//*[contains(@class, "avatar")]')
     }
 }
 

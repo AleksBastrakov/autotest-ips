@@ -55,7 +55,7 @@ describe ('Login form', async () => {
             timeoutMsg: 'Login field was not displayed'
         })
         await browser.$('//*[@id="login_field"]').setValue(LOGIN)
-        await browser.$('//*[@id="password"]').setValue('12782193692136')
+        await browser.$('//*[@id="password"]').setValue('wrong123pass')
         await browser.$('//*[@id="login_field"]').waitForClickable({
             timeoutMsg: 'Login button was not clickable'
         })
