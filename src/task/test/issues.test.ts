@@ -54,6 +54,7 @@ describe('Task form', () => {
         await issueEditPage.pushEditButton()
         await issueEditPage.setIssueTitle(issue.issueNameEdit)
         await issueEditPage.pushUpdateTitleButton()
+        await browser.pause(10000)
         await issueMainPage.findIssue(issue.issueNameEdit)
 
         expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.issueNameEdit)
