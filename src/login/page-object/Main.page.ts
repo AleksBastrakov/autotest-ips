@@ -1,4 +1,4 @@
-import {ChainablePromiseElement} from 'webdriverio'
+import { ChainablePromiseElement } from 'webdriverio'
 
 class MainPage {
     protected browser: WebdriverIO.Browser

@@ -15,15 +15,15 @@ class ProfileSettingsPage {
         await this.getEditAvatarButton().click()
     }
 
+    public async getPronounsValue(): Promise<string> {
+        return this.getPronounsInputField().getValue()
+    }
+
     public async isExistingAlert(): Promise<boolean> {
         await this.getAlertWindow().waitForExist({
             timeoutMsg: 'alert was not exist',
         })
         return this.getAlertWindow().isExisting()
-    }
-
-    public async getPronounsValue(): Promise<string> {
-        return this.getPronounsInputField().getValue()
     }
 
     public async isPublicEmailEnabled(): Promise<boolean> {
@@ -57,14 +57,7 @@ class ProfileSettingsPage {
         await this.getUserPronounsField().selectByAttribute('value', pronouns)
         await this.getUpdateProfileButton().click()
     }
-
-    public async showHiddenFileInput(): Promise<void> {
-        await this.browser.execute(() => {
-            const htmlElement = document.querySelector('[type="file"]') as HTMLElement
-            htmlElement.style.cssText = 'display:block !important; opacity: 1; position: inherit;'
-        })
-    }
-
+    
     public swapPronounsValue(pronouns: string): string {
         if (pronouns === 'he/him') {
             return pronouns = 'she/her'
@@ -116,6 +109,13 @@ class ProfileSettingsPage {
     
     private getUserPronounsField(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//*[@id="user_profile_pronouns_select"]')
+    }
+
+    private async showHiddenFileInput(): Promise<void> {
+        await this.browser.execute(() => {
+            const htmlElement = document.querySelector('[type="file"]') as HTMLElement
+            htmlElement.style.cssText = 'display:block !important; opacity: 1; position: inherit;'
+        })
     }
 }
 

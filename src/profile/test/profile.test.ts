@@ -1,16 +1,15 @@
 import { ProfilePage } from "../page-object/Profile.page"
 import { ProfileSettingsPage } from "../page-object/ProfileSettings.page"
-import { LoginPage } from "../../login/page-object/Login.page"
-import { LOGIN, PASSWORD} from "../../../credentials"
-import { getRandomString } from "../functions"
-
+import { LoginPage } from "../../profile/page-object/Login.page"
+import { getRandomString } from "../data/generate.data"
+import { UserModel, createUserModel} from '../model/user.model'
+import { userData } from '../data/user.data'
 
 describe('Profile settings form', () => {
     let loginPage: LoginPage
     let profilePage: ProfilePage
     let profileSettingsPage: ProfileSettingsPage
-    const pathFileJPG = 'src/files/avatar.jpg'
-    const pathFilePNG = 'src/files/avatar.png'
+    const user: UserModel = createUserModel(userData)
     
     before(async () => {
         loginPage = new LoginPage(browser)
@@ -20,7 +19,7 @@ describe('Profile settings form', () => {
 
     beforeEach(async () => {
         await loginPage.open()
-        await loginPage.login(LOGIN, PASSWORD)
+        await loginPage.login(user)
         await profileSettingsPage.open()
     })
 
@@ -77,7 +76,7 @@ describe('Profile settings form', () => {
     })
 
     it('photo PNG should be uploaded in profile', async () => {
-        await profileSettingsPage.uploadFile(pathFilePNG)
+        await profileSettingsPage.uploadFile(pathFileJPG)
         await profileSettingsPage.clickEditAvatarButton()
 
         expect(await profileSettingsPage.isExistingAlert()).toEqual(true)
