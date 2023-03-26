@@ -10,7 +10,7 @@ class ProfileSettingsPage {
 
     public async clickEditAvatarButton(): Promise<void> {
         await this.getEditAvatarButton().waitForExist({
-            timeoutMsg: 'Edit buttos was not exist'
+            timeoutMsg: 'Edit buttons was not exist'
         })
         await this.getEditAvatarButton().click()
     }

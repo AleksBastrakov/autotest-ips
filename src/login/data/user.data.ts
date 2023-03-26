@@ -13,7 +13,7 @@ const userData: UserData = {
     login: LOGIN,
     email: EMAIL,
     password: PASSWORD,
-    emptyLogin: '',
+    emptyLogin: '', //вынести невалидные данные прямо в тест объектом (выносить в describe)
     emptyPassword: '',
     wrongPassword: 'wrong123pass'
 }

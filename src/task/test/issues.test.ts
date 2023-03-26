@@ -8,7 +8,6 @@ import { pathFile } from '../data/file.data'
 import { UserModel, createUserModel} from '../model/user.model'
 import { IssueModel, createIssueModel} from '../model/issue.model'
 
-
 describe('Task form', () => {
     let loginPage: LoginPage
     let issueMainPage: IssueMainPage
@@ -25,11 +24,11 @@ describe('Task form', () => {
     })
 
     beforeEach(async () => {
-        await loginPage.open()
+        await loginPage.open()//нужно ли каждый раз логиниться?
         await loginPage.login(user)
     })
 
-    it('CREATE NEW ISSUE', async () => {
+    it('issue must be created', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.findIssue(issue.issueName)
 
@@ -39,7 +38,7 @@ describe('Task form', () => {
         await issueEditPage.deleteIssue()
     })
 
-    it('DELETE ISSUE', async () => {
+    it('issue must be deleted', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.deleteIssue()
@@ -48,7 +47,7 @@ describe('Task form', () => {
         expect(await issueMainPage.isIssueFoundBySearch()).toEqual(false)
     })
 
-    it('EDIT ISSUE NAME', async () => {
+    it('issue name must be edited', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.pushEditButton()
@@ -63,7 +62,7 @@ describe('Task form', () => {
         await issueEditPage.deleteIssue()
     })
 
-    it('CLOSE ISSUE', async () => {
+    it('issue must be closed', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.pushCloseIssueButton()
@@ -74,7 +73,7 @@ describe('Task form', () => {
         await issueEditPage.deleteIssue()
     })
 
-    it('COMMENT ISSUE', async () => {
+    it('comment must be created', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.setNewComment(issue.issueComment)
@@ -82,15 +81,15 @@ describe('Task form', () => {
 
         expect(await issueEditPage.getTextFromCommentField()).toEqual(issue.issueComment)
 
-        await issueMainPage.openIssueEdit(issue.issueName)
+        await issueMainPage.openIssueEdit(issue.issueName) //вынести в after или в afterEach
         await issueEditPage.deleteIssue()
     })
 
-    it('ADD FILE IN ISSUE', async () => {
+    it.only('file must be downloaded', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.uploadFile(pathFile)
-        await browser.pause(10000)
+        await browser.pause(10000)//подумать как избавиться от паузы
         await issueEditPage.pushNewCommentButton()
 
         expect(await issueEditPage.isFileDownload()).toEqual(true)
@@ -99,7 +98,7 @@ describe('Task form', () => {
         await issueEditPage.deleteIssue()
     })
 
-    it('BLOCK COMMENTS', async () => {
+    it('comments must be blocked', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.pushLockCommentsButton()
@@ -111,7 +110,7 @@ describe('Task form', () => {
         await issueEditPage.deleteIssue()
     })
 
-    it('TAG FOUND', async () => {
+    it('label must tag an issue ', async () => {
         await issueCreatePage.createIssue(issue)
         await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.pushOpenLabelsMenu()

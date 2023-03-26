@@ -15,7 +15,7 @@ function createUserModel(data: UserData): UserModel
         login: data.login,
         email: data.email,
         password: data.password,
-        emptyLogin: data.emptyLogin,
+        emptyLogin: data.emptyLogin,//поправить как и в данных
         emptyPassword: data.emptyPassword,
         wrongPassword: data.wrongPassword,
     }

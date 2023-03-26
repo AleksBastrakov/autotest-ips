@@ -6,9 +6,14 @@ class IssueCreatePage {
     protected browser: WebdriverIO.Browser
     protected url = `https://github.com/${LOGIN}/${PROJECT}/issues/new`
 
-
     constructor(browser: WebdriverIO.Browser) {
         this.browser = browser
+    }
+
+    public async createIssue(issue: IssueModel): Promise<void> {
+        await this.open()//Вынести в тест в beforeEach в тест
+        await this.setIssueTitle(issue.issueName)
+        await this.pushSubmitButton()
     }
 
     public async open(): Promise<void> {
@@ -22,11 +27,11 @@ class IssueCreatePage {
         await this.getSubmitButton().click()
     }
 
-    public async setIssueTitle(name: string): Promise<void> {
+    public async setIssueTitle(title: string): Promise<void> {
         await this.getIssueTitle().waitForDisplayed({
             timeoutMsg: 'Issue title field was not displayed'
         })
-        await this.getIssueTitle().setValue(name)
+        await this.getIssueTitle().setValue(title)
     }
 
     private getIssueTitle(): ChainablePromiseElement<WebdriverIO.Element> {
@@ -35,12 +40,6 @@ class IssueCreatePage {
 
     private getSubmitButton(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//*[@class="btn-primary btn ml-2"]')
-    }
-
-    public async createIssue(issue: IssueModel): Promise<void> {
-        await this.open()
-        await this.setIssueTitle(issue.issueName)
-        await this.pushSubmitButton()
     }
 }
 

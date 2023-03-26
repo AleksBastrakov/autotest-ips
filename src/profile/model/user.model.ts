@@ -8,7 +8,7 @@ type UserModel = {
 function createUserModel(data: UserData): UserModel
 {
     return {
-        login: data.login,
+        login: data.login,//вынести в common
         password: data.password,
     }
 }

@@ -1,9 +1,9 @@
 import { IssueData } from "../data/issue.data"
 
 type IssueModel = {
-    issueName: string,
+    issueName: string,//просто name
     issueNameEdit: string,
-    issueComment: string,
+    issueComment: string,//просто comment
 }
 
 function createIssueModel(data: IssueData): IssueModel

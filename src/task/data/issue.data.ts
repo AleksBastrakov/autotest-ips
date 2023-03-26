@@ -8,7 +8,6 @@ const issueData: IssueData = {
     issueName: 'AutoCreateIssue01',
     issueNameEdit: 'AutoCreateIssue02',
     issueComment: 'My issue comment'
-
 }
 
 export {

@@ -4,6 +4,7 @@ import { LoginPage } from "../../profile/page-object/Login.page"
 import { getRandomString } from "../data/generate.data"
 import { UserModel, createUserModel} from '../model/user.model'
 import { userData } from '../data/user.data'
+import { pathFileJPG, pathFilePNG } from "../data/file.data"
 
 describe('Profile settings form', () => {
     let loginPage: LoginPage
@@ -15,11 +16,11 @@ describe('Profile settings form', () => {
         loginPage = new LoginPage(browser)
         profilePage = new ProfilePage(browser)
         profileSettingsPage = new ProfileSettingsPage(browser)
+        await loginPage.open()
+        await loginPage.login(user)
     })
 
     beforeEach(async () => {
-        await loginPage.open()
-        await loginPage.login(user)
         await profileSettingsPage.open()
     })
 
@@ -76,13 +77,9 @@ describe('Profile settings form', () => {
     })
 
     it('photo PNG should be uploaded in profile', async () => {
-        await profileSettingsPage.uploadFile(pathFileJPG)
+        await profileSettingsPage.uploadFile(pathFilePNG)
         await profileSettingsPage.clickEditAvatarButton()
 
         expect(await profileSettingsPage.isExistingAlert()).toEqual(true)
-    })
-
-    afterEach(async () => {
-        await browser.reloadSession()
     })
 })
