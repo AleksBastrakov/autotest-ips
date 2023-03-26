@@ -16,12 +16,15 @@ class ProfileSettingsPage {
     }
 
     public async getPronounsValue(): Promise<string> {
+        await this.getPronounsInputField().waitForExist({
+            timeoutMsg: 'Pronouns field was not exist'
+        })
         return this.getPronounsInputField().getValue()
     }
 
     public async isExistingAlert(): Promise<boolean> {
         await this.getAlertWindow().waitForExist({
-            timeoutMsg: 'alert was not exist',
+            timeoutMsg: 'Alert was not exist',
         })
         return this.getAlertWindow().isExisting()
     }

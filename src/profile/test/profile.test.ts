@@ -1,23 +1,26 @@
+import { LoginPage } from "../../common/page-object/Login.page"
 import { ProfilePage } from "../page-object/Profile.page"
 import { ProfileSettingsPage } from "../page-object/ProfileSettings.page"
-import { LoginPage } from "../../profile/page-object/Login.page"
-import { getRandomString } from "../data/generate.data"
-import { UserModel, createUserModel} from '../model/user.model'
-import { userData } from '../data/user.data'
-import { pathFileJPG, pathFilePNG } from "../data/file.data"
+import { EmailSettingsPage } from "../page-object/EmailSettings.page"
+import { UserModel, createUserModel} from '../../common/model/user.model'
+import { userData } from '../../common/data/user.data'
+import { getRandomText } from "../../common/data/generator.data"
+import { pathFileJPG, pathFilePNG } from "../../common/data/file.data"
 
 describe('Profile settings form', () => {
     let loginPage: LoginPage
     let profilePage: ProfilePage
     let profileSettingsPage: ProfileSettingsPage
+    let emailSettingsPage: EmailSettingsPage
     const user: UserModel = createUserModel(userData)
     
     before(async () => {
         loginPage = new LoginPage(browser)
         profilePage = new ProfilePage(browser)
         profileSettingsPage = new ProfileSettingsPage(browser)
+        emailSettingsPage = new EmailSettingsPage(browser)
         await loginPage.open()
-        await loginPage.login(user)
+        await loginPage.login(user.login, user.password)
     })
 
     beforeEach(async () => {
@@ -25,47 +28,47 @@ describe('Profile settings form', () => {
     })
 
     it('edit username must save and display', async () => {
-        let name: string = getRandomString(25)
-        await profileSettingsPage.setUserNameField(name)
+        await profileSettingsPage.setUserNameField(user.name)
         await profilePage.open()
 
-        expect(await profilePage.getNameText()).toEqual(name)
+        expect(await profilePage.getNameText()).toEqual(user.name)
     })
 
     it('edit name with more than 255 symbols must not save', async () => {
-        let name: string = getRandomString(256)
-        await profileSettingsPage.setUserNameField(name)
+        user.name = getRandomText(256)
+        await profileSettingsPage.setUserNameField(user.name)
         await profilePage.open()
 
-        expect(await profilePage.getNameText()).not.toEqual(name)
+        expect(await profilePage.getNameText()).not.toEqual(user.name)
     })
 
     it('edit pronouns must save and display', async () => {
-        let pronouns: string = await profileSettingsPage.getPronounsValue()
-        profileSettingsPage.swapPronounsValue(pronouns)
-        await profileSettingsPage.setUserPronounsField(pronouns)
+        await profileSettingsPage.setUserPronounsField(user.pronouns)
         await profilePage.open()
 
-        expect(await profilePage.getPronounsText()).toEqual(pronouns)
+        expect(await profilePage.getPronounsText()).toEqual(user.pronouns)
     })
 
     it('edit bio must save and display', async () => {
-        let bio: string = getRandomString(100)
-        await profileSettingsPage.setUserBioField(bio)
+        await profileSettingsPage.setUserBioField(user.bio)
         await profilePage.open()
 
-        expect(await profilePage.getBioText()).toEqual(bio)
+        expect(await profilePage.getBioText()).toEqual(user.bio)
     })
 
     it('edit bio with more than 160 symbols must not save', async () => {
-        let bio: string = getRandomString(161)
-        await profileSettingsPage.setUserBioField(bio)
+        user.bio = getRandomText(161)
+        await profileSettingsPage.setUserBioField(user.bio)
         await profilePage.open()
 
-        expect(await profilePage.getBioText()).not.toEqual(bio)
+        expect(await profilePage.getBioText()).not.toEqual(user.bio)
     })
 
-    it('public email must be desabled', async () => {
+    it('public email must be disabled', async () => {
+        await emailSettingsPage.open()
+        await emailSettingsPage.checkEmailPublicCheckbox()
+        await profileSettingsPage.open()
+        
         expect(await profileSettingsPage.isPublicEmailEnabled()).toEqual(false)
     })
 

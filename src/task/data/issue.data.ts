@@ -1,13 +1,13 @@
+import { getUniqueValue, getRandomText } from "../../common/data/generator.data"
+
 type IssueData = {
-    issueName: string,
-    issueNameEdit: string,
-    issueComment: string,
+    name: string,
+    comment: string,
 }
 
 const issueData: IssueData = {
-    issueName: 'AutoCreateIssue01',
-    issueNameEdit: 'AutoCreateIssue02',
-    issueComment: 'My issue comment'
+    name: getUniqueValue('IssueName'),
+    comment: getRandomText(200),
 }
 
 export {

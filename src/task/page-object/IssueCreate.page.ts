@@ -11,8 +11,8 @@ class IssueCreatePage {
     }
 
     public async createIssue(issue: IssueModel): Promise<void> {
-        await this.open()//Вынести в тест в beforeEach в тест
-        await this.setIssueTitle(issue.issueName)
+        await this.open()
+        await this.setIssueTitle(issue.name)
         await this.pushSubmitButton()
     }
 

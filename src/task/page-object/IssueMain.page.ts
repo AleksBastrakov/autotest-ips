@@ -9,18 +9,34 @@ class IssueMainPage {
         this.browser = browser
     }
 
-    public async findIssue(issueName: string): Promise<void> {
+    public async findIssue(name: string): Promise<void> {
         await this.open()
-        await this.setIssuesSearchField(issueName)
-        await this.browser.keys('Enter')//вынести в Enum, если будут использоваться другие клавиши
-        await this.browser.pause(5000)//подумать как избавиться от паузы
+        await this.setIssuesSearchField(name)
+        await this.browser.keys('Enter')
+    }
+
+    public async isIssueFoundIsEmpty(): Promise<boolean> {
+        await this.getEmptyFoundBanner().waitForDisplayed({
+            timeoutMsg: 'Empty banner was not displayed',
+        })
+        return this.getEmptyFoundBanner().isExisting()
+    }
+    
+    private getEmptyFoundBanner(): ChainablePromiseElement<WebdriverIO.Element> {
+        return this.browser.$('//*[@class="blankslate blankslate-large blankslate-spacious"]')
     }
 
     public async getIssueNameFromSearchList(): Promise<string> {
+        await this.getIssueFromSearchList().waitForDisplayed({
+            timeoutMsg: 'Issue name was not displayed',
+        })
         return this.getIssueFromSearchList().getText()
     }
 
-    public isIssueFoundBySearch(): Promise<boolean> {
+    public async isIssueFoundBySearch(): Promise<boolean> {
+        await this.getIssueFromSearchList().waitForDisplayed({
+            timeoutMsg: 'Issue found was not displayed',
+        })
         return this.getIssueFromSearchList().isExisting()
     }
 
@@ -28,12 +44,8 @@ class IssueMainPage {
         await this.browser.url(this.url)
     }
 
-    public async openIssueEdit(issueName: string): Promise<void> {//переименовать метод
+    public async openIssueSettings(issueName: string): Promise<void> {
         await this.findIssue(issueName)
-        await this.getIssueFromSearchList().click()
-    }
-
-    public async openIssueSettings(): Promise<void> {
         await this.getIssueFromSearchList().waitForDisplayed({
             timeoutMsg: 'Issue was not found',
         })

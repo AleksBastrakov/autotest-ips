@@ -1,4 +1,4 @@
-import { LOGIN, PASSWORD, EMAIL } from "../../credentials"
+import { LOGIN, PASSWORD, EMAIL } from "../../../credentials"
 
 describe ('Login form', async () => {
     beforeEach(async () => {

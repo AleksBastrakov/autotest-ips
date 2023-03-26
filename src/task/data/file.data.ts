@@ -1,1 +1,0 @@
-export const pathFile = 'src/files/avatar.png'

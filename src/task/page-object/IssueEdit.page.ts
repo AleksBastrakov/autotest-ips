@@ -26,8 +26,15 @@ class IssueEditPage {
         return this.getLockIcon().isExisting()
     }
 
+    public async isEditIconDisplayed(): Promise<boolean> {
+        await this.getEditIcon().waitForDisplayed({
+            timeoutMsg: 'Block comment icon status was not displayed'
+        })
+        return this.getEditIcon().isExisting()
+    }
+
     public async isIssueBugLabel(): Promise<boolean> {
-        await this.getIssueBugLabel().waitForDisplayed({
+        await this.getIssueBugLabel().waitForExist({
             timeoutMsg: 'Bug label was not displayed'
         })
         return this.getIssueBugLabel().isExisting()
@@ -124,18 +131,18 @@ class IssueEditPage {
         await this.getUpdateTitleButton().click()
     }
 
-    public async setIssueTitle(name: string): Promise<void> {//параметр будет titlex
+    public async setIssueTitle(title: string): Promise<void> {
         await this.getIssueTitle().waitForDisplayed({
             timeoutMsg: 'Issue title field was not displayed'
         })
-        await this.getIssueTitle().setValue(name)
+        await this.getIssueTitle().setValue(title)     
     }
 
-    public async setNewComment(name: string): Promise<void> {//параметр будет comment
+    public async setNewComment(comment: string): Promise<void> {
         await this.getNewCommentField().waitForDisplayed({
             timeoutMsg: 'Comment field was not displayed'
         })
-        await this.getNewCommentField().setValue(name)
+        await this.getNewCommentField().setValue(comment)
     }
 
     public async uploadFile(filePath: string): Promise<void> {
@@ -164,6 +171,10 @@ class IssueEditPage {
 
     private getDeleteIssueButton(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$("//*[@class='details-reset details-overlay details-overlay-dark js-delete-issue']/summary")
+    }
+
+    private getEditIcon(): ChainablePromiseElement<WebdriverIO.Element> {
+        return this.browser.$('//*[@class="octicon octicon-pencil color-fg-inherit"]')
     }
 
     private getEditLabels(): ChainablePromiseElement<WebdriverIO.Element> {
@@ -220,7 +231,7 @@ class IssueEditPage {
 
     private getVerifyLockCommentsButton(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//*[@class="btn btn-block"]')
-    }
+    } 
 }
 
 export {

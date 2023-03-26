@@ -12,8 +12,6 @@
         catch (error) {
             console.log('Rejected: Error! ', error)
         }
-
     }
-
     print()
 }

@@ -1,12 +1,13 @@
-import { LoginPage } from "../page-object/Login.page"
+import { LoginPage } from "../../common/page-object/Login.page"
 import { IssueMainPage } from "../page-object/IssueMain.page"
 import { IssueCreatePage } from "../page-object/IssueCreate.page"
 import { IssueEditPage } from "../page-object/IssueEdit.page"
-import { userData } from '../data/user.data'
+import { userData } from '../../common/data/user.data'
 import { issueData } from '../data/issue.data'
-import { pathFile } from '../data/file.data'
-import { UserModel, createUserModel} from '../model/user.model'
+import { UserModel, createUserModel} from '../../common/model/user.model'
 import { IssueModel, createIssueModel} from '../model/issue.model'
+import { pathFilePNG } from "../../common/data/file.data"
+import { getUniqueValue } from "../../common/data/generator.data"
 
 describe('Task form', () => {
     let loginPage: LoginPage
@@ -21,110 +22,81 @@ describe('Task form', () => {
         issueMainPage = new IssueMainPage(browser)
         issueCreatePage = new IssueCreatePage(browser)
         issueEditPage = new IssueEditPage(browser)
+        await loginPage.open()
+        await loginPage.login(user.login, user.password)
     })
 
     beforeEach(async () => {
-        await loginPage.open()//нужно ли каждый раз логиниться?
-        await loginPage.login(user)
+        await issueCreatePage.createIssue(issue)
+        await issueMainPage.openIssueSettings(issue.name)
     })
 
-    it('issue must be created', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.findIssue(issue.issueName)
+    it('issue must be created', async () => {     
+        await issueMainPage.findIssue(issue.name)
+        await issueMainPage.isIssueFoundBySearch()
 
-        expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.issueName)
-
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.deleteIssue()
+        expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.name)
     })
 
     it('issue must be deleted', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.deleteIssue()
-        await issueMainPage.findIssue(issue.issueName)
+        await issueMainPage.findIssue(issue.name)
 
-        expect(await issueMainPage.isIssueFoundBySearch()).toEqual(false)
+        expect(await issueMainPage.isIssueFoundIsEmpty()).toEqual(true)
+
+        await issueCreatePage.createIssue(issue)
     })
 
     it('issue name must be edited', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
+        issue.name = getUniqueValue('IssueName')
         await issueEditPage.pushEditButton()
-        await issueEditPage.setIssueTitle(issue.issueNameEdit)
+        await issueEditPage.setIssueTitle(issue.name)
         await issueEditPage.pushUpdateTitleButton()
-        await browser.pause(10000)
-        await issueMainPage.findIssue(issue.issueNameEdit)
+        await issueEditPage.isEditIconDisplayed()
+        await issueMainPage.findIssue(issue.name)
 
-        expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.issueNameEdit)
-
-        await issueMainPage.openIssueEdit(issue.issueNameEdit)
-        await issueEditPage.deleteIssue()
+        expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.name)
     })
 
     it('issue must be closed', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.pushCloseIssueButton()
 
         expect(await issueEditPage.isIssueClosed()).toEqual(true)
-
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.deleteIssue()
     })
 
     it('comment must be created', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.setNewComment(issue.issueComment)
+        await issueEditPage.setNewComment(issue.comment)
         await issueEditPage.pushNewCommentButton()
 
-        expect(await issueEditPage.getTextFromCommentField()).toEqual(issue.issueComment)
-
-        await issueMainPage.openIssueEdit(issue.issueName) //вынести в after или в afterEach
-        await issueEditPage.deleteIssue()
+        expect(await issueEditPage.getTextFromCommentField()).toEqual(issue.comment)
     })
 
-    it.only('file must be downloaded', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.uploadFile(pathFile)
-        await browser.pause(10000)//подумать как избавиться от паузы
+    it('file must be downloaded', async () => {
+        await issueEditPage.uploadFile(pathFilePNG)
+        await browser.pause(5000)
         await issueEditPage.pushNewCommentButton()
 
         expect(await issueEditPage.isFileDownload()).toEqual(true)
-
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.deleteIssue()
     })
 
     it('comments must be blocked', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
         await issueEditPage.pushLockCommentsButton()
         await issueEditPage.pushVerifyLockCommentsButton()
 
         expect(await issueEditPage.isCommentsBlocked()).toEqual(true)
-
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.deleteIssue()
     })
 
-    it('label must tag an issue ', async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueEdit(issue.issueName)
+    it('label must tag an issue', async () => {
         await issueEditPage.pushOpenLabelsMenu()
         await issueEditPage.pushBugLabelSelect()
         await issueEditPage.pushEditLabels()
-        await issueMainPage.openIssueEdit(issue.issueName)
+        await issueMainPage.openIssueSettings(issue.name)
 
         expect(await issueEditPage.isIssueBugLabel()).toEqual(true)
-
-        await issueMainPage.openIssueEdit(issue.issueName)
-        await issueEditPage.deleteIssue()
     })
 
     afterEach(async () => {
-        await browser.reloadSession()
+        await issueMainPage.openIssueSettings(issue.name)
+        await issueEditPage.deleteIssue()
     })
 })
