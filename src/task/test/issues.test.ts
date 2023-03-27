@@ -48,7 +48,7 @@ describe('Task form', () => {
     })
 
     it('issue name must be edited', async () => {
-        issue.name = getUniqueValue('IssueName')
+        issue.name = getUniqueValue('IssueName', 5)
         await issueEditPage.pushEditButton()
         await issueEditPage.setIssueTitle(issue.name)
         await issueEditPage.pushUpdateTitleButton()
