@@ -8,7 +8,7 @@ describe('Login form', () => {
     let mainPage: MainPage
     let emptyLogin: string = ''
     let emptyPassword: string = ''
-    let wrongPassword: string = 'wrongPaassword'
+    let wrongPassword: string = 'wrongPassword'
     const user: UserModel = createUserModel(userData)
 
     before(async () => {
