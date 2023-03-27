@@ -14,9 +14,9 @@ const userData: UserData = {
     login: LOGIN,
     email: EMAIL,
     password: PASSWORD,
-    name: getUniqueValue('Name'),
+    name: getUniqueValue('Name', 5),
     pronouns: 'he/him',
-    bio: getUniqueValue('Bio'),
+    bio: getUniqueValue('Bio', 100),
 }
 
 export {

@@ -22,8 +22,8 @@ function getTimeStamp(): number {
     return Date.now()
 }
 
-function getUniqueValue(value: string): string {
-    return (value + '-' + getTimeStamp() + '-' + getRandomNumber(5))
+function getUniqueValue(name: string, lenght: number): string {
+    return (name + '-' + getTimeStamp() + '-' + getRandomText(lenght))
 }
 
 export {

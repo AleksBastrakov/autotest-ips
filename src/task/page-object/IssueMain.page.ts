@@ -15,17 +15,6 @@ class IssueMainPage {
         await this.browser.keys('Enter')
     }
 
-    public async isIssueFoundIsEmpty(): Promise<boolean> {
-        await this.getEmptyFoundBanner().waitForDisplayed({
-            timeoutMsg: 'Empty banner was not displayed',
-        })
-        return this.getEmptyFoundBanner().isExisting()
-    }
-    
-    private getEmptyFoundBanner(): ChainablePromiseElement<WebdriverIO.Element> {
-        return this.browser.$('//*[@class="blankslate blankslate-large blankslate-spacious"]')
-    }
-
     public async getIssueNameFromSearchList(): Promise<string> {
         await this.getIssueFromSearchList().waitForDisplayed({
             timeoutMsg: 'Issue name was not displayed',
@@ -38,6 +27,13 @@ class IssueMainPage {
             timeoutMsg: 'Issue found was not displayed',
         })
         return this.getIssueFromSearchList().isExisting()
+    }
+
+    public async isIssueFoundIsEmpty(): Promise<boolean> {
+        await this.getEmptyFoundBanner().waitForDisplayed({
+            timeoutMsg: 'Empty banner was not displayed',
+        })
+        return this.getEmptyFoundBanner().isExisting()
     }
 
     public async open(): Promise<void> {
@@ -64,6 +60,10 @@ class IssueMainPage {
             timeoutMsg: 'Issue title field was not displayed'
         })
         await this.getIssuesSearchField().setValue(name)
+    }
+
+    private getEmptyFoundBanner(): ChainablePromiseElement<WebdriverIO.Element> {
+        return this.browser.$('//*[@class="blankslate blankslate-large blankslate-spacious"]')
     }
 
     private getIssueFromSearchList(): ChainablePromiseElement<WebdriverIO.Element> {

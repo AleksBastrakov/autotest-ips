@@ -6,7 +6,7 @@ type IssueData = {
 }
 
 const issueData: IssueData = {
-    name: getUniqueValue('IssueName'),
+    name: getUniqueValue('IssueName', 10),
     comment: getRandomText(200),
 }
 
