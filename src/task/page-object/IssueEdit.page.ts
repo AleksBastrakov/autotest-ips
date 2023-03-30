@@ -26,6 +26,13 @@ class IssueEditPage {
         return this.getLockIcon().isExisting()
     }
 
+    public async isDownloadStatusFinished(): Promise<boolean> {
+        await this.getDownloadStatusFinished().waitForDisplayed({
+            timeoutMsg: 'Download status was not displayed'
+        })
+        return await this.getDownloadStatusFinished().isDisplayed()
+    }
+
     public async isEditIconDisplayed(): Promise<boolean> {
         await this.getEditIcon().waitForDisplayed({
             timeoutMsg: 'Block comment icon status was not displayed'
@@ -51,7 +58,7 @@ class IssueEditPage {
         await this.getCloseStatus().waitForDisplayed({
             timeoutMsg: 'Issue status was not displayed'
         })
-        return this.getCloseStatus().isExisting()
+        return await this.getCloseStatus().isDisplayed()
     }
 
     public async pushBugLabelSelect(): Promise<void> {
@@ -173,6 +180,10 @@ class IssueEditPage {
         return this.browser.$("//*[@class='details-reset details-overlay details-overlay-dark js-delete-issue']/summary")
     }
 
+    private getDownloadStatusFinished(): ChainablePromiseElement<WebdriverIO.Element> {
+        return this.browser.$('(//*[@class="js-upload-markdown-image is-default"])[2]')
+    }
+
     private getEditIcon(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//*[@class="octicon octicon-pencil color-fg-inherit"]')
     }
@@ -190,7 +201,7 @@ class IssueEditPage {
     }
 
     private getInputFile(): ChainablePromiseElement<WebdriverIO.Element> {
-        return this.browser.$('//*[@id="fc-new_comment_field"]')
+        return this.browser.$('(//*[@type="file"])[2]')
     }
 
     private getIssueBugLabel(): ChainablePromiseElement<WebdriverIO.Element> {

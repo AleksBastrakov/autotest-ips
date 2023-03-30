@@ -26,9 +26,9 @@ class IssueMainPage {
         await this.getIssueFromSearchList().waitForDisplayed({
             timeoutMsg: 'Issue found was not displayed',
         })
-        return this.getIssueFromSearchList().isExisting()
+        return await this.getIssueFromSearchList().isDisplayed()
     }
-
+ 
     public async isIssueFoundIsEmpty(): Promise<boolean> {
         await this.getEmptyFoundBanner().waitForDisplayed({
             timeoutMsg: 'Empty banner was not displayed',

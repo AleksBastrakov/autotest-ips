@@ -5,12 +5,15 @@ type IssueData = {
     comment: string,
 }
 
-const issueData: IssueData = {
-    name: getUniqueValue('IssueName', 10),
-    comment: getRandomText(200),
+function generateIssueData(): IssueData
+{
+    return {
+        name: getUniqueValue('IssueName', 10),
+        comment: getRandomText(200),
+    }
 }
 
 export {
-    issueData,
     IssueData,
+    generateIssueData,
 }
