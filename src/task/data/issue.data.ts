@@ -8,7 +8,7 @@ type IssueData = {
 function generateIssueData(): IssueData
 {
     return {
-        name: getUniqueValue('IssueName', 10),
+        name: getUniqueValue('IssueName', 5),
         comment: getRandomText(200),
     }
 }
