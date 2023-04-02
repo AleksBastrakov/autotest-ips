@@ -12,7 +12,7 @@ class EmailSettingsPage {
         await this.browser.url(this.url)
     }
 
-    public async checkEmailPublicCheckbox(): Promise<void> {
+    public async setEmailPublicCheckbox(): Promise<void> {
         await this.getEmailPublicCheckbox().waitForDisplayed({
             timeoutMsg: 'Email public checkbox was not displayed'
         })

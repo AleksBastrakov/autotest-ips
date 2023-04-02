@@ -23,7 +23,7 @@ function getTimeStamp(): number {
 }
 
 function getUniqueValue(name: string, lenght: number): string {
-    return (name + '-' + getTimeStamp() + '-' + getRandomText(lenght))
+    return (`${name}-${getTimeStamp()}-${getRandomText(lenght)}`)
 }
 
 export {

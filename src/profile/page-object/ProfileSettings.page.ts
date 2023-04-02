@@ -8,8 +8,8 @@ class ProfileSettingsPage {
         this.browser = browser
     }
 
-    public async clickEditAvatarButton(): Promise<void> {
-        await this.getEditAvatarButton().waitForExist({
+    public async clickSetProfilePictureButton(): Promise<void> {
+        await this.getEditAvatarButton().waitForClickable({
             timeoutMsg: 'Edit buttons was not exist'
         })
         await this.getEditAvatarButton().click()
@@ -22,11 +22,11 @@ class ProfileSettingsPage {
         return this.getPronounsInputField().getValue()
     }
 
-    public async isExistingAlert(): Promise<boolean> {
-        await this.getAlertWindow().waitForExist({
+    public async isShowingInformation(): Promise<boolean> {
+        await this.getInfoWindow().waitForDisplayed({
             timeoutMsg: 'Alert was not exist',
         })
-        return this.getAlertWindow().isExisting()
+        return this.getInfoWindow().isDisplayed()
     }
 
     public async isPublicEmailEnabled(): Promise<boolean> {
@@ -42,6 +42,9 @@ class ProfileSettingsPage {
             timeoutMsg: 'Bio field was not displayed'
         })
         await this.getUserBioField().setValue(bio)
+        await this.getUpdateProfileButton().waitForClickable({
+            timeoutMsg: 'Update profile button.was not clickabled'
+        })
         await this.getUpdateProfileButton().click()
     }
 
@@ -50,23 +53,26 @@ class ProfileSettingsPage {
             timeoutMsg: 'Username field was not displayed'
         })
         await this.getUserNameField().setValue(name)
+        await this.getUpdateProfileButton().waitForClickable({
+            timeoutMsg: 'Bio field was not displayed'
+        })
         await this.getUpdateProfileButton().click()
     }
 
+    //переделать починить
     public async setUserPronounsField(pronouns: string): Promise<void> {
         await this.getUserPronounsField().waitForDisplayed({
             timeoutMsg: 'Pronouns field was not displayed'
         })
+        let time: string = await this.getPronounsValue()
+        if (time === 'he/him') {
+            pronouns = 'she/her'
+        } 
         await this.getUserPronounsField().selectByAttribute('value', pronouns)
+        await this.getUpdateProfileButton().waitForClickable({
+            timeoutMsg: 'Pronouns field was not clickabled'
+        })
         await this.getUpdateProfileButton().click()
-    }
-    
-    public swapPronounsValue(pronouns: string): string {
-        if (pronouns === 'he/him') {
-            return pronouns = 'she/her'
-        } else {
-            return pronouns = 'he/him'
-        }
     }
 
     public async uploadFile(filePath: string): Promise<void> {
@@ -78,12 +84,12 @@ class ProfileSettingsPage {
         await this.getInputFile().setValue(file)
     }
 
-    private getAlertWindow(): ChainablePromiseElement<WebdriverIO.Element> {
-        return this.browser.$('//*[@role="alert"]')
-    }
-
     private getEditAvatarButton(): ChainablePromiseElement<WebdriverIO.Element> {
         return this.browser.$('//button[@value="save"]')
+    }
+
+    private getInfoWindow(): ChainablePromiseElement<WebdriverIO.Element> {
+        return this.browser.$('//*[@role="alert"]')
     }
 
     private getInputFile(): ChainablePromiseElement<WebdriverIO.Element> {

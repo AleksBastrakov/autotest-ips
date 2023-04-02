@@ -42,98 +42,98 @@ class IssueEditPage {
 
     public async isIssueBugLabel(): Promise<boolean> {
         await this.getIssueBugLabel().waitForExist({
-            timeoutMsg: 'Bug label was not displayed'
+            timeoutMsg: 'Bug label was not clickabled'
         })
         return this.getIssueBugLabel().isExisting()
     }
 
     public async isFileDownload(): Promise<boolean> {
         await this.getFile().waitForDisplayed({
-            timeoutMsg: 'Issue status was not displayed'
+            timeoutMsg: 'Issue status was not clickabled'
         })
         return this.getFile().isExisting()
     }
 
     public async isIssueClosed(): Promise<boolean> {
         await this.getCloseStatus().waitForDisplayed({
-            timeoutMsg: 'Issue status was not displayed'
+            timeoutMsg: 'Issue status was not clickabled'
         })
         return await this.getCloseStatus().isDisplayed()
     }
 
     public async pushBugLabelSelect(): Promise<void> {
-        await this.getOpenLabelsMenu().waitForDisplayed({
-            timeoutMsg: 'Bug select was not displayed'
+        await this.getOpenLabelsMenu().waitForClickable({
+            timeoutMsg: 'Bug select was not clickabled'
         })
         await this.getBugLabelSelect().click()
     }  
 
     public async pushCloseIssueButton(): Promise<void> {
-        await this.getCloseIssueButton().waitForDisplayed({
-            timeoutMsg: 'Close issue button was not displayed'
+        await this.getCloseIssueButton().waitForClickable({
+            timeoutMsg: 'Close issue button was not clickabled'
         })
         await this.getCloseIssueButton().click()
     }
 
     public async pushDeleteIssueButton(): Promise<void> {
-        await this.getDeleteIssueButton().waitForDisplayed({
-            timeoutMsg: 'Delete button was not displayed'
+        await this.getDeleteIssueButton().waitForClickable({
+            timeoutMsg: 'Delete button was not clickabled'
         })
         await this.getDeleteIssueButton().click()
     }
 
     public async pushEditButton(): Promise<void> {
-        await this.getEditButton().waitForDisplayed({
-            timeoutMsg: 'Edit button was not displayed'
+        await this.getEditButton().waitForClickable({
+            timeoutMsg: 'Edit button was not clickabled'
         })
         await this.getEditButton().click()
     }
 
     public async pushEditLabels(): Promise<void> {
-        await this.getEditLabels().waitForDisplayed({
-            timeoutMsg: 'Labels Edit Menu was not displayed'
+        await this.getEditLabels().waitForClickable({
+            timeoutMsg: 'Labels Edit Menu was not clickabled'
         })
         await this.getEditLabels().click()
     }
 
     public async pushLockCommentsButton(): Promise<void> {
-        await this.getLockCommentsButton().waitForDisplayed({
-            timeoutMsg: 'New comment button was not displayed'
+        await this.getLockCommentsButton().waitForClickable({
+            timeoutMsg: 'New comment button was not clickabled'
         })
         await this.getLockCommentsButton().click()
     }
 
     public async pushNewCommentButton(): Promise<void> {
-        await this.getNewCommentButton().waitForDisplayed({
-            timeoutMsg: 'New comment button was not displayed'
+        await this.getNewCommentButton().waitForClickable({
+            timeoutMsg: 'New comment button was not clickabled'
         })
         await this.getNewCommentButton().click()
     }
 
     public async pushOpenLabelsMenu(): Promise<void> {
         await this.getOpenLabelsMenu().waitForDisplayed({
-            timeoutMsg: 'Labels Menu was not displayed'
+            timeoutMsg: 'Labels Menu was not clickabled'
         })
         await this.getOpenLabelsMenu().click()
     }
 
     public async pushVerifyDeleteIssueButton(): Promise<void> {
-        await this.getDeleteIssueButton().waitForDisplayed({
-            timeoutMsg: 'Verify delete button was not displayed'
+        await this.getDeleteIssueButton().waitForClickable({
+            timeoutMsg: 'Verify delete button was not clickabled'
         })
         await this.getVerifyDeleteIssueButton().click()
     }
 
     public async pushVerifyLockCommentsButton(): Promise<void> {
-        await this.getVerifyLockCommentsButton().waitForDisplayed({
-            timeoutMsg: 'New comment button was not displayed'
+        await this.getVerifyLockCommentsButton().waitForClickable({
+            timeoutMsg: 'New comment button was not clickabled'
         })
         await this.getVerifyLockCommentsButton().click()
     }
 
     public async pushUpdateTitleButton(): Promise<void> {
-        await this.getUpdateTitleButton().waitForDisplayed({
-            timeoutMsg: 'Update button was not displayed'
+        await this.getUpdateTitleButton().waitForClickable({
+            timeoutMsg: 'Update button was not clickabled'
         })
         await this.getUpdateTitleButton().click()
     }

@@ -21,7 +21,7 @@ class IssueCreatePage {
     }
 
     public async pushSubmitButton(): Promise<void> {
-        await this.getSubmitButton().waitForDisplayed({
+        await this.getSubmitButton().waitForClickable({
             timeoutMsg: 'Submit button was not displayed'
         })
         await this.getSubmitButton().click()

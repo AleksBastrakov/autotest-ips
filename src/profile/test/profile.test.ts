@@ -5,7 +5,7 @@ import { EmailSettingsPage } from "../page-object/EmailSettings.page"
 import { UserModel, createUserModel} from '../../common/model/user.model'
 import { userData } from '../../common/data/user.data'
 import { getRandomText } from "../../common/data/generator.data"
-import { pathFileJPG, pathFilePNG } from "../../common/data/file.data"
+import { PATH_FILE_JPG, PATH_FILE_PNG } from "../../common/data/constant.data"
 
 describe('Profile settings form', () => {
     let loginPage: LoginPage
@@ -20,7 +20,7 @@ describe('Profile settings form', () => {
         profileSettingsPage = new ProfileSettingsPage(browser)
         emailSettingsPage = new EmailSettingsPage(browser)
         await loginPage.open()
-        await loginPage.login(user.login, user.password)
+        await loginPage.login(user)
     })
 
     beforeEach(async () => {
@@ -37,12 +37,16 @@ describe('Profile settings form', () => {
     it('edit name with more than 255 symbols must not save', async () => {
         user.name = getRandomText(256)
         await profileSettingsPage.setUserNameField(user.name)
+
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
+
         await profilePage.open()
 
         expect(await profilePage.getNameText()).not.toEqual(user.name)
     })
 
-    it('edit pronouns must save and display', async () => {
+     //разобоаться починить и вынести прононс в енум
+    it.only('edit pronouns must save and display', async () => {
         await profileSettingsPage.setUserPronounsField(user.pronouns)
         await profilePage.open()
 
@@ -66,23 +70,23 @@ describe('Profile settings form', () => {
 
     it('public email must be disabled', async () => {
         await emailSettingsPage.open()
-        await emailSettingsPage.checkEmailPublicCheckbox()
+        await emailSettingsPage.setEmailPublicCheckbox()
         await profileSettingsPage.open()
         
         expect(await profileSettingsPage.isPublicEmailEnabled()).toEqual(false)
     })
 
     it('photo JPG should be uploaded in profile', async () => {
-        await profileSettingsPage.uploadFile(pathFileJPG)
-        await profileSettingsPage.clickEditAvatarButton()
+        await profileSettingsPage.uploadFile(PATH_FILE_JPG)
+        await profileSettingsPage.clickSetProfilePictureButton()
 
-        expect(await profileSettingsPage.isExistingAlert()).toEqual(true)
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
     })
 
     it('photo PNG should be uploaded in profile', async () => {
-        await profileSettingsPage.uploadFile(pathFilePNG)
-        await profileSettingsPage.clickEditAvatarButton()
+        await profileSettingsPage.uploadFile(PATH_FILE_PNG)
+        await profileSettingsPage.clickSetProfilePictureButton()
 
-        expect(await profileSettingsPage.isExistingAlert()).toEqual(true)
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
     })
 })

@@ -6,7 +6,7 @@ import { userData } from '../../common/data/user.data'
 import { generateIssueData } from '../data/issue.data'
 import { UserModel, createUserModel} from '../../common/model/user.model'
 import { IssueModel, createIssueModel} from '../model/issue.model'
-import { pathFilePNG } from "../../common/data/file.data"
+import { PATH_FILE_PNG } from "../../common/data/constant.data"
 import { getUniqueValue } from "../../common/data/generator.data"
 
 describe('Task form', () => {
@@ -23,7 +23,7 @@ describe('Task form', () => {
         issueCreatePage = new IssueCreatePage(browser)
         issueEditPage = new IssueEditPage(browser)
         await loginPage.open()
-        await loginPage.login(user.login, user.password)
+        await loginPage.login(user)
     })
 
     beforeEach(async () => {
@@ -58,7 +58,7 @@ describe('Task form', () => {
         expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.name)
     })
 
-    it.only('issue must be closed', async () => {
+    it('issue must be closed', async () => {
         await issueEditPage.pushCloseIssueButton()
 
         expect(await issueEditPage.isIssueClosed()).toEqual(true)
@@ -72,9 +72,9 @@ describe('Task form', () => {
     })
 
     it('file must be downloaded', async () => {
-        await issueEditPage.uploadFile(pathFilePNG)
+        await issueEditPage.uploadFile(PATH_FILE_PNG)
         await issueEditPage.isDownloadStatusFinished()
-        await browser.pause(1000)
+        await browser.pause(2000)
         await issueEditPage.pushNewCommentButton()
 
         expect(await issueEditPage.isFileDownload()).toEqual(true)
