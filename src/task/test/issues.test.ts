@@ -49,9 +49,9 @@ describe('Task form', () => {
 
     it('issue name must be edited', async () => {
         issue.name = getUniqueValue('IssueName', 5)
-        await issueEditPage.pushEditButton()
+        await issueEditPage.clickEditButton()
         await issueEditPage.setIssueTitle(issue.name)
-        await issueEditPage.pushUpdateTitleButton()
+        await issueEditPage.clickUpdateTitleButton()
         await issueEditPage.isEditIconDisplayed()
         await issueMainPage.findIssue(issue.name)
 
@@ -59,41 +59,41 @@ describe('Task form', () => {
     })
 
     it('issue must be closed', async () => {
-        await issueEditPage.pushCloseIssueButton()
+        await issueEditPage.clickCloseIssueButton()
 
         expect(await issueEditPage.isIssueClosed()).toEqual(true)
     })
 
     it('comment must be created', async () => {
         await issueEditPage.setNewComment(issue.comment)
-        await issueEditPage.pushNewCommentButton()
+        await issueEditPage.clickNewCommentButton()
 
         expect(await issueEditPage.getTextFromCommentField()).toEqual(issue.comment)
+    })
+
+    it('comments must be blocked', async () => {
+        await issueEditPage.clickLockCommentsButton()
+        await issueEditPage.clickVerifyLockCommentsButton()
+
+        expect(await issueEditPage.isCommentsBlocked()).toEqual(true)
+    })
+
+    it('label must tag an issue', async () => {
+        await issueEditPage.clickOpenLabelsMenu()
+        await issueEditPage.clickBugLabelSelect()
+        await issueEditPage.clickEditLabels()
+        await issueMainPage.openIssueSettings(issue.name)
+
+        expect(await issueEditPage.isIssueBugLabel()).toEqual(true)
     })
 
     it('file must be downloaded', async () => {
         await issueEditPage.uploadFile(PATH_FILE_PNG)
         await issueEditPage.isDownloadStatusFinished()
         await browser.pause(2000)
-        await issueEditPage.pushNewCommentButton()
+        await issueEditPage.clickNewCommentButton()
 
         expect(await issueEditPage.isFileDownload()).toEqual(true)
-    })
-
-    it('comments must be blocked', async () => {
-        await issueEditPage.pushLockCommentsButton()
-        await issueEditPage.pushVerifyLockCommentsButton()
-
-        expect(await issueEditPage.isCommentsBlocked()).toEqual(true)
-    })
-
-    it('label must tag an issue', async () => {
-        await issueEditPage.pushOpenLabelsMenu()
-        await issueEditPage.pushBugLabelSelect()
-        await issueEditPage.pushEditLabels()
-        await issueMainPage.openIssueSettings(issue.name)
-
-        expect(await issueEditPage.isIssueBugLabel()).toEqual(true)
     })
 
     afterEach(async () => {

@@ -10,26 +10,26 @@ class IssueCreatePage {
         this.browser = browser
     }
 
+    public async clickSubmitButton(): Promise<void> {
+        await this.getSubmitButton().waitForClickable({
+            timeoutMsg: 'Submit button was not clickable'
+        })
+        await this.getSubmitButton().click()
+    }
+
     public async createIssue(issue: IssueModel): Promise<void> {
         await this.open()
         await this.setIssueTitle(issue.name)
-        await this.pushSubmitButton()
+        await this.clickSubmitButton()
     }
 
     public async open(): Promise<void> {
         await this.browser.url(this.url)
     }
 
-    public async pushSubmitButton(): Promise<void> {
-        await this.getSubmitButton().waitForClickable({
-            timeoutMsg: 'Submit button was not displayed'
-        })
-        await this.getSubmitButton().click()
-    }
-
     public async setIssueTitle(title: string): Promise<void> {
         await this.getIssueTitle().waitForDisplayed({
-            timeoutMsg: 'Issue title field was not displayed'
+            timeoutMsg: 'Issue title field was not display'
         })
         await this.getIssueTitle().setValue(title)
     }

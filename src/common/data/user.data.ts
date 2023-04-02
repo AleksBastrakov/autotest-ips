@@ -1,5 +1,6 @@
 import { LOGIN, PASSWORD, EMAIL } from "../../../credentials"
-import { getUniqueValue } from "../data/generator.data"
+import { PRONOUNS } from "./constant.data"
+import { getUniqueValue, getRandomPronouns } from "../data/generator.data"
 
 type UserData = {
     login: string,
@@ -15,7 +16,7 @@ const userData: UserData = {
     email: EMAIL,
     password: PASSWORD,
     name: getUniqueValue('Name', 5),
-    pronouns: 'he/him',
+    pronouns: getRandomPronouns(PRONOUNS),
     bio: getUniqueValue('Bio', 100),
 }
 

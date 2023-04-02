@@ -4,7 +4,7 @@ import { ProfileSettingsPage } from "../page-object/ProfileSettings.page"
 import { EmailSettingsPage } from "../page-object/EmailSettings.page"
 import { UserModel, createUserModel} from '../../common/model/user.model'
 import { userData } from '../../common/data/user.data'
-import { getRandomText } from "../../common/data/generator.data"
+import { getRandomText, swapPronounsValue } from "../../common/data/generator.data"
 import { PATH_FILE_JPG, PATH_FILE_PNG } from "../../common/data/constant.data"
 
 describe('Profile settings form', () => {
@@ -34,19 +34,9 @@ describe('Profile settings form', () => {
         expect(await profilePage.getNameText()).toEqual(user.name)
     })
 
-    it('edit name with more than 255 symbols must not save', async () => {
-        user.name = getRandomText(256)
-        await profileSettingsPage.setUserNameField(user.name)
-
-        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
-
-        await profilePage.open()
-
-        expect(await profilePage.getNameText()).not.toEqual(user.name)
-    })
-
-     //разобоаться починить и вынести прононс в енум
-    it.only('edit pronouns must save and display', async () => {
+    it('edit pronouns must save and display', async () => {
+        let currentPronouns = await profileSettingsPage.getPronounsValue()
+        user.pronouns = swapPronounsValue(currentPronouns)
         await profileSettingsPage.setUserPronounsField(user.pronouns)
         await profilePage.open()
 
@@ -58,14 +48,6 @@ describe('Profile settings form', () => {
         await profilePage.open()
 
         expect(await profilePage.getBioText()).toEqual(user.bio)
-    })
-
-    it('edit bio with more than 160 symbols must not save', async () => {
-        user.bio = getRandomText(161)
-        await profileSettingsPage.setUserBioField(user.bio)
-        await profilePage.open()
-
-        expect(await profilePage.getBioText()).not.toEqual(user.bio)
     })
 
     it('public email must be disabled', async () => {
@@ -88,5 +70,24 @@ describe('Profile settings form', () => {
         await profileSettingsPage.clickSetProfilePictureButton()
 
         expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
+    })
+
+    it('edit name with more than 255 symbols must not save', async () => {
+        user.name = getRandomText(256)
+        await profileSettingsPage.setUserNameField(user.name)
+
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
+
+        await profilePage.open()
+
+        expect(await profilePage.getNameText()).not.toEqual(user.name)
+    })
+
+    it('edit bio with more than 160 symbols must not save', async () => {
+        user.bio = getRandomText(161)
+        await profileSettingsPage.setUserBioField(user.bio)
+        await profilePage.open()
+
+        expect(await profilePage.getBioText()).not.toEqual(user.bio)
     })
 })

@@ -17,23 +17,23 @@ class IssueMainPage {
 
     public async getIssueNameFromSearchList(): Promise<string> {
         await this.getIssueFromSearchList().waitForDisplayed({
-            timeoutMsg: 'Issue name was not displayed',
+            timeoutMsg: 'Issue name was not display',
         })
         return this.getIssueFromSearchList().getText()
     }
 
     public async isIssueFoundBySearch(): Promise<boolean> {
         await this.getIssueFromSearchList().waitForDisplayed({
-            timeoutMsg: 'Issue found was not displayed',
+            timeoutMsg: 'Issue found was not display',
         })
         return await this.getIssueFromSearchList().isDisplayed()
     }
  
     public async isIssueFoundIsEmpty(): Promise<boolean> {
         await this.getEmptyFoundBanner().waitForDisplayed({
-            timeoutMsg: 'Empty banner was not displayed',
+            timeoutMsg: 'Empty banner was not display',
         })
-        return this.getEmptyFoundBanner().isExisting()
+        return this.getEmptyFoundBanner().isDisplayed()
     }
 
     public async open(): Promise<void> {
@@ -49,15 +49,15 @@ class IssueMainPage {
     }
 
     public async pushNewIssueButton(): Promise<void> {
-        await this.getNewIssueButton().waitForDisplayed({
-            timeoutMsg: 'New issue button was not displayed',
+        await this.getNewIssueButton().waitForClickable({
+            timeoutMsg: 'New issue button was not clickable',
         })
         await this.getNewIssueButton().click()
     }
 
     public async setIssuesSearchField(name: string): Promise<void> {
         await this.getIssuesSearchField().waitForDisplayed({
-            timeoutMsg: 'Issue title field was not displayed'
+            timeoutMsg: 'Issue title field was not display'
         })
         await this.getIssuesSearchField().setValue(name)
     }

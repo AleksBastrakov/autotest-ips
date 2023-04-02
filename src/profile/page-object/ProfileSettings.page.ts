@@ -10,9 +10,16 @@ class ProfileSettingsPage {
 
     public async clickSetProfilePictureButton(): Promise<void> {
         await this.getEditAvatarButton().waitForClickable({
-            timeoutMsg: 'Edit buttons was not exist'
+            timeoutMsg: 'Edit button was not clickable'
         })
         await this.getEditAvatarButton().click()
+    }
+
+    public async clickUpdateProfileButton(): Promise<void> {
+        await this.getUpdateProfileButton().waitForClickable({
+            timeoutMsg: 'Update profile button was not clickable'
+        })
+        await this.getUpdateProfileButton().click()
     }
 
     public async getPronounsValue(): Promise<string> {
@@ -22,15 +29,15 @@ class ProfileSettingsPage {
         return this.getPronounsInputField().getValue()
     }
 
-    public async isShowingInformation(): Promise<boolean> {
-        await this.getInfoWindow().waitForDisplayed({
-            timeoutMsg: 'Alert was not exist',
-        })
-        return this.getInfoWindow().isDisplayed()
-    }
-
     public async isPublicEmailEnabled(): Promise<boolean> {
         return this.getPublicEmailField().isEnabled()
+    }
+
+    public async isShowingInformation(): Promise<boolean> {
+        await this.getInfoWindow().waitForDisplayed({
+            timeoutMsg: 'Alert window was not display',
+        })
+        return this.getInfoWindow().isDisplayed()
     }
 
     public async open(): Promise<void> {
@@ -39,40 +46,26 @@ class ProfileSettingsPage {
 
     public async setUserBioField(bio: string): Promise<void> {
         await this.getUserBioField().waitForDisplayed({
-            timeoutMsg: 'Bio field was not displayed'
+            timeoutMsg: 'Bio field was not display'
         })
         await this.getUserBioField().setValue(bio)
-        await this.getUpdateProfileButton().waitForClickable({
-            timeoutMsg: 'Update profile button.was not clickabled'
-        })
-        await this.getUpdateProfileButton().click()
+        await this.clickUpdateProfileButton()
     }
 
     public async setUserNameField(name: string): Promise<void> {
         await this.getUserNameField().waitForDisplayed({
-            timeoutMsg: 'Username field was not displayed'
+            timeoutMsg: 'Username field was not display'
         })
         await this.getUserNameField().setValue(name)
-        await this.getUpdateProfileButton().waitForClickable({
-            timeoutMsg: 'Bio field was not displayed'
-        })
-        await this.getUpdateProfileButton().click()
+        await this.clickUpdateProfileButton()
     }
 
-    //переделать починить
     public async setUserPronounsField(pronouns: string): Promise<void> {
         await this.getUserPronounsField().waitForDisplayed({
-            timeoutMsg: 'Pronouns field was not displayed'
+            timeoutMsg: 'Pronouns field was not display'
         })
-        let time: string = await this.getPronounsValue()
-        if (time === 'he/him') {
-            pronouns = 'she/her'
-        } 
         await this.getUserPronounsField().selectByAttribute('value', pronouns)
-        await this.getUpdateProfileButton().waitForClickable({
-            timeoutMsg: 'Pronouns field was not clickabled'
-        })
-        await this.getUpdateProfileButton().click()
+        await this.clickUpdateProfileButton()
     }
 
     public async uploadFile(filePath: string): Promise<void> {

@@ -1,13 +1,13 @@
-const PATH_FILE_JPG = './src/common/file/avatar.jpg'
-const PATH_FILE_PNG = './src/common/file/avatar.png'
 const EMPTY_STRING: string = ''
+const PATH_FILE_JPG: string = './src/common/file/avatar.jpg'
+const PATH_FILE_PNG: string = './src/common/file/avatar.png'
+const PRONOUNS: string[] =  ['he/him', 'she/her', 'they/them'];
 const WRONG_PASSWORD: string = 'wrongPassword'
-const enum PRONOUNS{'he/him', 'she/her'}
 
 export {
+    EMPTY_STRING,
     PATH_FILE_JPG,
     PATH_FILE_PNG,
-    EMPTY_STRING,
-    WRONG_PASSWORD,
-    PRONOUNS
+    PRONOUNS,
+    WRONG_PASSWORD,    
 }
