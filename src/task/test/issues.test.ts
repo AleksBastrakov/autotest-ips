@@ -1,13 +1,13 @@
-import { LoginPage } from "../../common/page-object/Login.page"
-import { IssueMainPage } from "../page-object/IssueMain.page"
 import { IssueCreatePage } from "../page-object/IssueCreate.page"
 import { IssueEditPage } from "../page-object/IssueEdit.page"
-import { userData } from '../../common/data/user.data'
-import { generateIssueData } from '../data/issue.data'
-import { UserModel, createUserModel} from '../../common/model/user.model'
+import { IssueMainPage } from "../page-object/IssueMain.page"
 import { IssueModel, createIssueModel} from '../model/issue.model'
+import { LoginPage } from "../../common/page-object/Login.page"
+import { UserModel, createUserModel} from '../../common/model/user.model'
 import { PATH_FILE_PNG } from "../../common/data/constant.data"
+import { generateIssueData } from '../data/issue.data'
 import { getUniqueValue } from "../../common/data/generator.data"
+import { userData } from '../../common/data/user.data'
 
 describe('Task form', () => {
     let loginPage: LoginPage
