@@ -1,0 +1,96 @@
+import { LoginPage } from "../../common/page-object/Login.page"
+import { ProfilePage } from "../page-object/Profile.page"
+import { ProfileSettingsPage } from "../page-object/ProfileSettings.page"
+import { EmailSettingsPage } from "../page-object/EmailSettings.page"
+import { UserModel, createUserModel} from '../../common/model/user.model'
+import { userData, userEmptyData } from '../../common/data/user.data'
+import { getRandomText, swapPronounsValue } from "../../common/data/generator.data"
+import { PATH_FILE_JPG, PATH_FILE_PNG } from "../../common/data/constant.data"
+import { UserAPIService } from "../../common/api/api-service/UserAPIService"
+
+describe('Profile settings form', () => {
+    let loginPage: LoginPage
+    let profilePage: ProfilePage
+    let profileSettingsPage: ProfileSettingsPage
+    let emailSettingsPage: EmailSettingsPage
+    const user: UserModel = createUserModel(userData)
+    const emptyModel: UserModel = createUserModel(userEmptyData)
+    
+    before(async () => {
+        loginPage = new LoginPage(browser)
+        profilePage = new ProfilePage(browser)
+        profileSettingsPage = new ProfileSettingsPage(browser)
+        emailSettingsPage = new EmailSettingsPage(browser)
+        await UserAPIService.updateAuthenticatedUser(emptyModel)
+        await loginPage.open()
+        await loginPage.login(user)
+    })
+
+    beforeEach(async () => {
+        await profileSettingsPage.open()
+    })
+
+    it('edit username must save and display', async () => {
+        await profileSettingsPage.setUserNameField(user.name)
+        await profilePage.open()
+
+        expect(await profilePage.getNameText()).toEqual(user.name)
+    })
+
+    it.only('edit pronouns must save and display', async () => {
+        let currentPronouns = await profileSettingsPage.getPronounsValue()
+        user.pronouns = swapPronounsValue(currentPronouns)
+        await profileSettingsPage.setUserPronounsField(user.pronouns)
+        await profilePage.open()
+
+        expect(await profilePage.getPronounsText()).toEqual(user.pronouns)
+    })
+
+    it('edit bio must save and display', async () => {
+        await profileSettingsPage.setUserBioField(user.bio)
+        await profilePage.open()
+
+        expect(await profilePage.getBioText()).toEqual(user.bio)
+    })
+
+    it('public email must be disabled', async () => {
+        await emailSettingsPage.open()
+        await emailSettingsPage.setEmailPublicCheckbox()
+        await profileSettingsPage.open()
+        
+        expect(await profileSettingsPage.isPublicEmailEnabled()).toEqual(false)
+    })
+
+    it('photo JPG should be uploaded in profile', async () => {
+        await profileSettingsPage.uploadFile(PATH_FILE_JPG)
+        await profileSettingsPage.clickSetProfilePictureButton()
+
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
+    })
+
+    it('photo PNG should be uploaded in profile', async () => {
+        await profileSettingsPage.uploadFile(PATH_FILE_PNG)
+        await profileSettingsPage.clickSetProfilePictureButton()
+
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
+    })
+
+    it('edit name with more than 255 symbols must not save', async () => {
+        user.name = getRandomText(256)
+        await profileSettingsPage.setUserNameField(user.name)
+
+        expect(await profileSettingsPage.isShowingInformation()).toEqual(true)
+
+        await profilePage.open()
+
+        expect(await profilePage.getNameText()).not.toEqual(user.name)
+    })
+
+    it('edit bio with more than 160 symbols must not save', async () => {
+        user.bio = getRandomText(161)
+        await profileSettingsPage.setUserBioField(user.bio)
+        await profilePage.open()
+
+        expect(await profilePage.getBioText()).not.toEqual(user.bio)
+    })
+})

@@ -8,6 +8,7 @@ import { PATH_FILE_PNG } from "../../common/data/constant.data"
 import { generateIssueData } from '../data/issue.data'
 import { getUniqueValue } from "../../common/data/generator.data"
 import { userData } from '../../common/data/user.data'
+import { IssueAPIService } from "../../common/api/api-service/IssueAPIService"
 
 describe('Task form', () => {
     let loginPage: LoginPage
@@ -27,7 +28,7 @@ describe('Task form', () => {
     })
 
     beforeEach(async () => {
-        await issueCreatePage.createIssue(issue)
+        await IssueAPIService.createIssue(issue)
         await issueMainPage.openIssueSettings(issue.name)
     })
 
@@ -38,16 +39,16 @@ describe('Task form', () => {
         expect(await issueMainPage.getIssueNameFromSearchList()).toEqual(issue.name)
     })
 
-    it('issue must be deleted', async () => {
+    it('issue must be deleted', async () => { //вынести в отдельный дескрайб
         await issueEditPage.deleteIssue()
         await issueMainPage.findIssue(issue.name)
 
         expect(await issueMainPage.isIssueFoundIsEmpty()).toEqual(true)
 
-        await issueCreatePage.createIssue(issue)
+        await issueCreatePage.createIssue(issue)// delete
     })
 
-    it('issue name must be edited', async () => {
+    it('issue name must be edited', async () => { // завести модель для редактирования
         issue.name = getUniqueValue('IssueName', 5)
         await issueEditPage.clickEditButton()
         await issueEditPage.setIssueTitle(issue.name)
@@ -99,5 +100,5 @@ describe('Task form', () => {
     afterEach(async () => {
         await issueMainPage.openIssueSettings(issue.name)
         await issueEditPage.deleteIssue()
-    })
+    })  
 })

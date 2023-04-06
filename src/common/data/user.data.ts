@@ -20,7 +20,17 @@ const userData: UserData = {
     bio: getUniqueValue('Bio', 100),
 }
 
+const userEmptyData: UserData = {
+    login: LOGIN,
+    email: EMAIL,
+    password: PASSWORD,
+    name: '',
+    pronouns: getRandomPronouns(PRONOUNS),
+    bio: '',
+}
+
 export {
     userData,
-    UserData
+    userEmptyData,
+    UserData,
 }
