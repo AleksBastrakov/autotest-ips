@@ -9,6 +9,7 @@ type UserData = {
     name: string,
     pronouns: string,
     bio: string,
+    project: string
 }
 
 const userData: UserData = {
@@ -18,6 +19,7 @@ const userData: UserData = {
     name: getUniqueValue('Name', 5),
     pronouns: getRandomPronouns(PRONOUNS),
     bio: getUniqueValue('Bio', 100),
+    project: 'autotest-ips'
 }
 
 const userEmptyData: UserData = {
@@ -27,6 +29,7 @@ const userEmptyData: UserData = {
     name: '',
     pronouns: getRandomPronouns(PRONOUNS),
     bio: '',
+    project: '',
 }
 
 export {

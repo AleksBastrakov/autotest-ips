@@ -7,6 +7,7 @@ type UserModel = {
     name: string
     pronouns: string
     bio: string
+    project: string
 }
 
 function createUserModel(data: UserData): UserModel
@@ -18,6 +19,7 @@ function createUserModel(data: UserData): UserModel
         name: data.name,
         pronouns: data.pronouns,
         bio: data.bio,
+        project: data.project
     }
 }
 

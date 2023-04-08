@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "devDependencies": {
+        "@types/node-fetch": "^2.6.3",
         "@types/qs": "6.9.7",
         "@wdio/cli": "7.16.15",
         "@wdio/local-runner": "7.30.1",

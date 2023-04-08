@@ -1,12 +1,13 @@
 import { IssueModel } from "../../../issue/model/issue.model"
-import { GitAPIProvider } from "../api-provider/GitAPIProvider"
 
-type IssueRequest = {
-    title: string,
+type CreateIssueRequest = {
+    title: string | number,
+    body?: string,
+    labels?: string[]
 }
 
-class IssueAPIDataProvider extends GitAPIProvider{
-    public static getIssueData(issue: IssueModel): IssueRequest {
+class IssueAPIDataProvider {
+    public static getCreationIssueData(issue: IssueModel): CreateIssueRequest {
         return {
             title: issue.name,
         }
@@ -15,5 +16,5 @@ class IssueAPIDataProvider extends GitAPIProvider{
 
 export {
     IssueAPIDataProvider,
-    IssueRequest,
+    CreateIssueRequest,
 }

@@ -1,17 +1,21 @@
 import { AxiosResponse } from "axios"
 import { IssueModel } from "../../../issue/model/issue.model"
-import { IssueAPIDataProvider, IssueRequest } from "../api-data-provider/IssueAPIDataProvider"
+import { IssueAPIDataProvider, CreateIssueRequest } from "../api-data-provider/IssueAPIDataProvider"
 import { IssueAPIProvider } from "../api-provider/IssueAPIProvider"
 
+type CreateIssueResponse = {
+    title: string,
+    html_url: string,
+}
+
 class IssueAPIService {
-    public static async createIssue(issue: IssueModel): Promise<AxiosResponse<IssueRequest>> {
+    public static async createIssue(owner: string, repo: string, issue: IssueModel): Promise<AxiosResponse<CreateIssueResponse>> {
         try {
-            const data: IssueRequest = IssueAPIDataProvider.getIssueData(issue)
-            const userAPIProvider: IssueAPIProvider = new IssueAPIProvider()
-            const response: AxiosResponse<IssueRequest> = await userAPIProvider.createIssue(data)
+            const data: CreateIssueRequest = IssueAPIDataProvider.getCreationIssueData(issue)
+            const issueAPIProvider: IssueAPIProvider = new IssueAPIProvider()
+            const response: AxiosResponse<CreateIssueResponse> = await issueAPIProvider.createIssue(owner, repo, data)
             return response
-        }
-        catch (error) {
+        } catch (error) {
             throw Error(`Create issue by model failed ${error}`)
         }
     }
@@ -19,4 +23,5 @@ class IssueAPIService {
 
 export {
     IssueAPIService,
+    CreateIssueResponse,
 }

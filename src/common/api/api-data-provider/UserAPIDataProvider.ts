@@ -1,17 +1,11 @@
 import { UserModel } from "../../model/user.model"
-import { GitAPIProvider } from "../api-provider/GitAPIProvider"
 
 type UpdateUserRequest = {
     name: string,
     bio: string,
 }
 
-type UserRequest = {
-    name: string,
-    bio: string,
-}
-
-class UserAPIDataProvider extends GitAPIProvider{
+class UserAPIDataProvider {
     public static getUpdateUserData(user: UserModel): UpdateUserRequest {
         return {
             name: user.name,
@@ -22,6 +16,5 @@ class UserAPIDataProvider extends GitAPIProvider{
 
 export {
     UserAPIDataProvider,
-    UserRequest,
     UpdateUserRequest,
 }

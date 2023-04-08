@@ -8,8 +8,10 @@ import { PATH_FILE_PNG } from "../../common/data/constant.data"
 import { generateIssueData } from '../data/issue.data'
 import { getUniqueValue } from "../../common/data/generator.data"
 import { userData } from '../../common/data/user.data'
+import { IssueAPIService } from "../../common/api/api-service/IssueAPIService"
+import { LOGIN, PROJECT } from "../../../credentials"
 
-describe('Issue form', () => {
+describe('Task form', () => {
     let loginPage: LoginPage
     let issueMainPage: IssueMainPage
     let issueCreatePage: IssueCreatePage
@@ -27,8 +29,9 @@ describe('Issue form', () => {
     })
 
     beforeEach(async () => {
-        await issueCreatePage.createIssue(issue)
-        await issueMainPage.openIssueSettings(issue.name)
+        const response = await IssueAPIService.createIssue(LOGIN, PROJECT, issue)
+        //await issueMainPage.openIssueSettings(issue.name)
+        await browser.url(response.data.html_url)
     })
 
     it('issue must be created', async () => {     
@@ -44,7 +47,7 @@ describe('Issue form', () => {
 
         expect(await issueMainPage.isIssueFoundIsEmpty()).toEqual(true)
 
-        await issueCreatePage.createIssue(issue)
+        await IssueAPIService.createIssue(LOGIN, PROJECT, issue)
     })
 
     it('issue name must be edited', async () => {
@@ -99,5 +102,5 @@ describe('Issue form', () => {
     afterEach(async () => {
         await issueMainPage.openIssueSettings(issue.name)
         await issueEditPage.deleteIssue()
-    })
+    })  
 })

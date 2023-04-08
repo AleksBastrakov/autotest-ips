@@ -1,17 +1,21 @@
 import { AxiosResponse } from "axios"
 import { UserModel } from "../../model/user.model"
-import { UserAPIDataProvider, UserRequest,  UpdateUserRequest } from "../api-data-provider/UserAPIDataProvider"
+import { UserAPIDataProvider, UpdateUserRequest } from "../api-data-provider/UserAPIDataProvider"
 import { UserAPIProvider } from "../api-provider/UserAPIProvider"
 
+type UpdateUserResponse = {
+    name: string,
+    bio: string,
+}
+
 class UserAPIService {
-    public static async updateAuthenticatedUser(user: UserModel): Promise<AxiosResponse<UserRequest>> {
+    public static async updateAuthenticatedUser(user: UserModel): Promise<AxiosResponse<UpdateUserResponse>> {
         try {
-            const data: UpdateUserRequest = UserAPIDataProvider.getUpdateUserData(user)
+            const data: UpdateUserResponse = UserAPIDataProvider.getUpdateUserData(user)
             const userAPIProvider: UserAPIProvider = new UserAPIProvider()
-            const response: AxiosResponse<UserRequest> = await userAPIProvider.updateAuthenticatedUser(data)
+            const response: AxiosResponse<UpdateUserResponse> = await userAPIProvider.updateAuthenticatedUser(data)
             return response
-        }
-        catch (error) {
+        } catch (error) {
             throw Error(`Update user by model failed ${error}`)
         }
     }

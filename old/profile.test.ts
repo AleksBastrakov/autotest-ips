@@ -3,10 +3,9 @@ import { ProfilePage } from "../page-object/Profile.page"
 import { ProfileSettingsPage } from "../page-object/ProfileSettings.page"
 import { EmailSettingsPage } from "../page-object/EmailSettings.page"
 import { UserModel, createUserModel} from '../../common/model/user.model'
-import { userData, userEmptyData } from '../../common/data/user.data'
+import { userData } from '../../common/data/user.data'
 import { getRandomText, swapPronounsValue } from "../../common/data/generator.data"
 import { PATH_FILE_JPG, PATH_FILE_PNG } from "../../common/data/constant.data"
-import { UserAPIService } from "../../common/api/api-service/UserAPIService"
 
 describe('Profile settings form', () => {
     let loginPage: LoginPage
@@ -14,14 +13,12 @@ describe('Profile settings form', () => {
     let profileSettingsPage: ProfileSettingsPage
     let emailSettingsPage: EmailSettingsPage
     const user: UserModel = createUserModel(userData)
-    const emptyModel: UserModel = createUserModel(userEmptyData)
     
     before(async () => {
         loginPage = new LoginPage(browser)
         profilePage = new ProfilePage(browser)
         profileSettingsPage = new ProfileSettingsPage(browser)
         emailSettingsPage = new EmailSettingsPage(browser)
-        await UserAPIService.updateAuthenticatedUser(emptyModel)
         await loginPage.open()
         await loginPage.login(user)
     })
@@ -37,7 +34,7 @@ describe('Profile settings form', () => {
         expect(await profilePage.getNameText()).toEqual(user.name)
     })
 
-    it.only('edit pronouns must save and display', async () => {
+    it('edit pronouns must save and display', async () => {
         let currentPronouns = await profileSettingsPage.getPronounsValue()
         user.pronouns = swapPronounsValue(currentPronouns)
         await profileSettingsPage.setUserPronounsField(user.pronouns)
