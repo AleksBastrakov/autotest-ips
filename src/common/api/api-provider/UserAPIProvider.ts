@@ -4,13 +4,13 @@ import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 class UserAPIProvider extends GitAPIProvider {
     public updateAuthenticatedUser<T>(data: UpdateUserRequest): Promise<AxiosResponse<T>> {
-        const apiRequest: AxiosRequestConfig = UserAPIProvider.configureRequest(
+        const request: AxiosRequestConfig = UserAPIProvider.configureRequest(
             '/user',
             'PATCH',
             this.headers,
             JSON.stringify(data),
         )
-        return this.sendRequest(apiRequest)
+        return this.sendRequest(request)
     }
 }
 

@@ -22,18 +22,18 @@ const userData: UserData = {
     project: 'autotest-ips'
 }
 
-const userEmptyData: UserData = {
+const userNegativeData: UserData = {
     login: LOGIN,
     email: EMAIL,
     password: PASSWORD,
     name: '',
     pronouns: getRandomPronouns(PRONOUNS),
     bio: '',
-    project: '',
+    project: 'blockIssues',
 }
 
 export {
     userData,
-    userEmptyData,
+    userNegativeData,
     UserData,
 }

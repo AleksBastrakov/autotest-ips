@@ -8,6 +8,12 @@ type CreateIssueResponse = {
     html_url: string,
 }
 
+type GetIssuesResponse = {
+    title: string,
+    html_url: string,
+    number: number,
+}
+
 class IssueAPIService {
     public static async createIssue(owner: string, repo: string, issue: IssueModel): Promise<AxiosResponse<CreateIssueResponse>> {
         try {
@@ -24,4 +30,5 @@ class IssueAPIService {
 export {
     IssueAPIService,
     CreateIssueResponse,
+    GetIssuesResponse,
 }

@@ -30,7 +30,6 @@ describe('Task form', () => {
 
     beforeEach(async () => {
         const response = await IssueAPIService.createIssue(LOGIN, PROJECT, issue)
-        //await issueMainPage.openIssueSettings(issue.name)
         await browser.url(response.data.html_url)
     })
 

@@ -9,7 +9,7 @@ class GitAPIProvider {
     constructor(isSuccessful: boolean = true) {
         this.isSuccessful = isSuccessful
         this.headers = {
-            'Accept': 'applicationa/vnd.github+json',
+            'Accept': 'application/vnd.github+json',
             'X-GitHub-Api-Version': '2022-11-28',
             'Authorization': `Bearer ${this.personalToken}`,
         }
